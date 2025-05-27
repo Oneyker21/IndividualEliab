@@ -46,7 +46,7 @@ const Encabezado = () => {
       <Container>
         <Navbar.Brand onClick={() => handleNavigate("/inicio")} className="text-white" style={{ cursor: "pointer" }}>
           <img alt="" src={logo} width="30" height="30" className="d-inline-block align-top" />{" "}
-          <strong>DistroSmarts</strong>
+          <strong>Salvando el Semestre</strong>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="offcanvasNavbar-expand-sm" onClick={handleToggle} />
         <Navbar.Offcanvas
@@ -59,9 +59,9 @@ const Encabezado = () => {
           <Offcanvas.Header closeButton>
             <Offcanvas.Title
               id="offcanvasNavbarLabel-expand-sm"
-              className={isCollapsed ? "color-texto-marca" : "text-white"}
+              className="text-white"
             >
-              Menú
+              Salvando el Semestre
             </Offcanvas.Title>
           </Offcanvas.Header>
           <Offcanvas.Body>
