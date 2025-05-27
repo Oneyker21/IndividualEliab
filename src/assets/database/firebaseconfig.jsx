@@ -16,30 +16,25 @@ const firebaseConfig = {
 };
 
 // Inicializa Firebase
-const appfirebase = initializeApp(firebaseConfig);
+export const appfirebase = initializeApp(firebaseConfig);
 
 // Inicializa Storage
-const storage = getStorage(appfirebase);
+export const storage = getStorage(appfirebase);
 
 // Inicializa Auth
-const auth = getAuth(appfirebase);
+export const auth = getAuth(appfirebase);
 
 // Inicializa Firestore
-const db = getFirestore(appfirebase);
+export const db = getFirestore(appfirebase);
 
 // Habilitar la persistencia de IndexedDB en Firestore
 enableIndexedDbPersistence(db)
-  .then(() => {
-    console.log("Persistencia de IndexedDB habilitada.");
-  })
   .catch((err) => {
-    if (err.code === "failed-precondition") {
-      console.warn("La persistencia solo está disponible en una pestaña a la vez.");
-    } else if (err.code === "unimplemented") {
-      console.warn("El navegador no soporta persistencia offline.");
-    } else {
-      console.error("Error al habilitar la persistencia:", err);
+    if (err.code === 'failed-precondition') {
+      console.warn('La persistencia falló. Múltiples pestañas abiertas.');
+    } else if (err.code === 'unimplemented') {
+      console.warn('El navegador no soporta persistencia.');
     }
   });
 
-export { appfirebase, db, auth, storage };
+export default db;
