@@ -9,6 +9,7 @@ export const useAuth = () => useContext(AuthContext);
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isOnline, setIsOnline] = useState(navigator.onLine);
 
   useEffect(() => {
     const auth = getAuth(appfirebase);
@@ -20,21 +21,26 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const logout = async () => {
-    const auth = getAuth(appfirebase);
-    await signOut(auth);
-    setIsLoggedIn(false);
-    setUser(null);
+    try {
+      const auth = getAuth(appfirebase);
+      await signOut(auth);
+      setIsLoggedIn(false);
+      setUser(null);
+    } catch (error) {
+      console.error("Error al cerrar sesión:", error);
+    }
   };
 
   // Detectar estado de conexión/desconexión
   useEffect(() => {
     const handleOnline = () => {
+      setIsOnline(true);
       console.log("¡Conexión restablecida!");
-      alert("¡Conexión restablecida!");
     };
+    
     const handleOffline = () => {
-      console.log("Estás offline. Los cambios se sincronizarán cuando vuelvas a conectarte.");
-      alert("Estás offline. Los cambios se sincronizarán cuando vuelvas a conectarte.");
+      setIsOnline(false);
+      console.log("Sin conexión. Los cambios se sincronizarán cuando vuelvas a conectarte.");
     };
 
     window.addEventListener("online", handleOnline);
@@ -47,7 +53,7 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, isLoggedIn, logout }}>
+    <AuthContext.Provider value={{ user, isLoggedIn, isOnline, logout }}>
       {children}
     </AuthContext.Provider>
   );
